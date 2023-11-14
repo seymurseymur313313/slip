@@ -20,14 +20,20 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
+        int a = 1;
         public MainWindow()
         {
             InitializeComponent();
+            numberTextBlock.Text = $"{a}";
+        }
+        private void IncreaseButtonClick(object sender, RoutedEventArgs e)
+        {
+            numberTextBlock.Text = $"{a++}";
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DecreaseButtonClick(object sender, RoutedEventArgs e)
         {
-
+            numberTextBlock.Text = $"{a--}";
         }
     }
 }
