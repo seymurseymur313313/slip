@@ -22,11 +22,12 @@ namespace WpfApp2
     /// </summary>
     public partial class MainWindow : Window
     {
-        int threadnum = 3;
+        int num = 5;
         int a = 1;
         private List<Thread> CreatedThreadsList;
         private List<Thread> WaitingThreadsList;
         private List<Thread> WorkingThreadsList;
+        private Semaphore semaphore = new Semaphore(5, 5);
 
         public MainWindow()
         {
@@ -34,8 +35,10 @@ namespace WpfApp2
             numberTextBlock.Text = $"{a}";
             DataContext = this;
             CreatedThreadsList = new List<Thread>();
+            WorkingThreadsList = new List<Thread>();
+            WaitingThreadsList=new List<Thread>();  
 
-            for (int i = 0; i < threadnum; i++)
+            for (int i = 0; i < num; i++)
             {
                 Thread thread = new Thread(new ThreadStart(ThreadMethod));
                 thread.Name = "Thread " + (i + 1);
@@ -46,30 +49,71 @@ namespace WpfApp2
             {
                 CreatedListView.Items.Add(new { ThreadName = thread.Name });
             }
+
+
         }
 
         private void ThreadMethod()
         {
-            // Thread görevi
-            Console.WriteLine(Thread.CurrentThread.Name + " is running.");
+            
+            Console.WriteLine(Thread.CurrentThread.Name + "");
             Thread.Sleep(1000);
         }
         private void IncreaseButtonClick(object sender, RoutedEventArgs e)
         {
-            numberTextBlock.Text = $"{a++}";
+            // Semaphore'dan izin al
+            semaphore.WaitOne();
+
+            // Sayıyı bir arttır
+            numberTextBlock.Text = $"{++a}";
+
+            // Yeni iş parçacığını oluştur
+            Thread thread = new Thread(new ThreadStart(ThreadMethod));
+            thread.Name = "Thread " + a;
+
+            // Oluşturulan iş parçacığını çalışan listesine ekle
+            workingListView.Items.Add(new { ThreadName = thread.Name });
+
+            // İş parçacığını başlat
+            thread.Start();
         }
 
         private void DecreaseButtonClick(object sender, RoutedEventArgs e)
         {
-            numberTextBlock.Text = $"{a--}";
+            // Semaphore'dan izin al
+            // Semaphore'dan izin al
+            semaphore.WaitOne();
+
+            // Sayıyı bir azalt
+            numberTextBlock.Text = $"{--a}";
+
+            // İlk çalışan iş parçacığını seç
+            var selectedItem = workingListView.Items[0];
+            workingListView.Items.RemoveAt(0);
+
+            // İş parçacığını bekleyen listesine ekle
+            waitingListView.Items.Add(selectedItem);
+
+            // Semaphore'a izin ver
+            semaphore.Release();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void newthr_Click(object sender, RoutedEventArgs e)
         {
+            int a = num + 1;
             Thread thread = new Thread(new ThreadStart(ThreadMethod));
-            thread.Name = "Thread " + threadnum;
+            thread.Name = "Thread " + a;
             CreatedThreadsList.Add(thread);
-            threadnum++;
+            num++;
+            CreatedListView.Items.Add(new { ThreadName = thread.Name });
+        }
+
+        private void CreatedListView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (CreatedListView.SelectedItem != null)
+            {
+                waitingListView.Items.Add(CreatedListView.SelectedItem);
+            }
         }
     }
 }
