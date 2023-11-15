@@ -1,51 +1,4 @@
-﻿<Window x:Class="WpfApp2.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp2"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-        <Border BorderThickness="1" BorderBrush="Black" Margin="28,60,623,193" >
-            <Grid>
-            
-                
-            </Grid>
-        </Border>
-        <Border BorderThickness="1" BorderBrush="Black" Margin="254,60,400,193" >
-            <Grid >
-                
-                
-            </Grid>
-        </Border>
-        <Border BorderThickness="1" BorderBrush="Black" Margin="474,60,177,193" >
-            <Grid>
-                
-                
-            </Grid>
-        </Border>
-        <Label Content="Working Threads" HorizontalAlignment="Left" Margin="28,29,0,0" VerticalAlignment="Top" Width="115" FontSize="14"/>
-        <Label Content="Waiting Threads" HorizontalAlignment="Left" Margin="254,29,0,0" VerticalAlignment="Top" Width="114" FontSize="14"/>
-        <Label Content="Created Threads" HorizontalAlignment="Left" Margin="474,29,0,0" VerticalAlignment="Top" Width="114" FontSize="14"/>
-        <Button Content="Create New" HorizontalAlignment="Left" Margin="604,325,0,0" VerticalAlignment="Top" Width="117" Height="32"/>
-
-        <Border BorderThickness="1" BorderBrush="Black" Margin="65,345,585,47">
-            <Grid Margin="0,0,28,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock x:Name="numberTextBlock" Grid.Column="2" Text="0" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="1.533,0.678" Margin="57,10,0,0"/>
-                <Button Content="▲" Width="30" Click="IncreaseButtonClick" Grid.Column="2" Margin="122,0,-65,20"/>
-                <Button Content="▼" Grid.Column="2" Width="30" Click="DecreaseButtonClick" Margin="122,20,-65,0"/>
-            </Grid>
-        </Border>
-    </Grid>
-</Window>
+﻿
 <Window x:Class="WpfApp2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -56,23 +9,48 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
 
-        <Border BorderThickness="1" BorderBrush="Black" Margin="28,60,623,193" >
+        <Border  BorderThickness="1" BorderBrush="Black" Margin="28,60,623,193" >
             <Grid>
-            
+                <ListView x:Name="workingListView" ItemsSource="{Binding WorkingThreadList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Thread.Name}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                        
+                    </ListView.ItemTemplate>
+                </ListView>
                 
             </Grid>
         </Border>
+        
         <Border BorderThickness="1" BorderBrush="Black" Margin="254,60,400,193" >
             <Grid >
-            <Grid >
-                
-                
-            </Grid>
+                <ListView x:Name="waitingListView" ItemsSource="{Binding WaitingThreadList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Thread.Name}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid >
+            
         </Border>
+                
         <Border BorderThickness="1" BorderBrush="Black" Margin="474,60,177,193" >
             <Grid>
-                
-                
+                <ListView Name="CreatedListView" Margin="1">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Thread Name" Width="160" DisplayMemberBinding="{Binding Path=ThreadName}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
             </Grid>
         </Border>
         <Label Content="Working Threads" HorizontalAlignment="Left" Margin="28,29,0,0" VerticalAlignment="Top" Width="115" FontSize="14"/>
@@ -82,12 +60,6 @@
 
         <Border BorderThickness="1" BorderBrush="Black" Margin="65,345,585,47">
             <Grid Margin="0,0,28,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
                 <TextBlock x:Name="numberTextBlock" Grid.Column="2" Text="0" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="1.533,0.678" Margin="57,10,0,0"/>
                 <Button Content="▲" Width="30" Click="IncreaseButtonClick" Grid.Column="2" Margin="122,0,-65,20"/>
                 <Button Content="▼" Grid.Column="2" Width="30" Click="DecreaseButtonClick" Margin="122,20,-65,0"/>
