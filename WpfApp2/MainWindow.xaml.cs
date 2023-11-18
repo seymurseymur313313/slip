@@ -61,40 +61,33 @@ namespace WpfApp2
         }
         private void IncreaseButtonClick(object sender, RoutedEventArgs e)
         {
-            // Semaphore'dan izin al
+            
             semaphore.WaitOne();
 
-            // Sayıyı bir arttır
             numberTextBlock.Text = $"{++a}";
 
-            // Yeni iş parçacığını oluştur
+            
             Thread thread = new Thread(new ThreadStart(ThreadMethod));
             thread.Name = "Thread " + a;
 
-            // Oluşturulan iş parçacığını çalışan listesine ekle
             workingListView.Items.Add(new { ThreadName = thread.Name });
 
-            // İş parçacığını başlat
             thread.Start();
         }
 
         private void DecreaseButtonClick(object sender, RoutedEventArgs e)
         {
-            // Semaphore'dan izin al
-            // Semaphore'dan izin al
+ 
             semaphore.WaitOne();
 
-            // Sayıyı bir azalt
+        
             numberTextBlock.Text = $"{--a}";
 
-            // İlk çalışan iş parçacığını seç
             var selectedItem = workingListView.Items[0];
             workingListView.Items.RemoveAt(0);
 
-            // İş parçacığını bekleyen listesine ekle
             waitingListView.Items.Add(selectedItem);
 
-            // Semaphore'a izin ver
             semaphore.Release();
         }
 

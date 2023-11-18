@@ -40,7 +40,7 @@
                 
         <Border BorderThickness="1" BorderBrush="Black" Margin="474,60,177,193" >
             <Grid>
-                <ListView Name="CreatedListView" Margin="1" SelectionChanged="CreatedListView_SelectionChanged_1">
+                <ListView Name="CreatedListView" Margin="1" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Thread Name" Width="160" DisplayMemberBinding="{Binding Path=ThreadName}" />
@@ -53,7 +53,7 @@
         <Label Content="Working Threads" HorizontalAlignment="Left" Margin="28,29,0,0" VerticalAlignment="Top" Width="115" FontSize="14"/>
         <Label Content="Waiting Threads" HorizontalAlignment="Left" Margin="254,29,0,0" VerticalAlignment="Top" Width="114" FontSize="14"/>
         <Label Content="Created Threads" HorizontalAlignment="Left" Margin="474,29,0,0" VerticalAlignment="Top" Width="114" FontSize="14"/>
-        <Button x:Name="newthr" Content="Create New" HorizontalAlignment="Left" Margin="604,325,0,0" VerticalAlignment="Top" Width="117" Height="32" Click="newthr_Click"/>
+        <Button x:Name="newthr" Content="Create New" HorizontalAlignment="Left" Margin="604,325,0,0" VerticalAlignment="Top" Width="117" Height="32" />
 
         <Border BorderThickness="1" BorderBrush="Black" Margin="65,345,585,47">
             <Grid Margin="0,0,28,0">
